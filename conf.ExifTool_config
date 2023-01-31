@@ -1,0 +1,24 @@
+%Image::ExifTool::UserDefined = (
+    'Image::ExifTool::XMP::Main' => {
+        StableDiffusion => {
+            SubDirectory => {
+                TagTable => 'Image::ExifTool::UserDefined::StableDiffusion',
+            },
+        },
+    },
+);
+
+%Image::ExifTool::UserDefined::StableDiffusion = (
+    GROUPS => { 0 => 'XMP', 1 => 'XMP-StableDiffusion', 2 => 'Other' },
+    NAMESPACE => { 'StableDiffusion' => 'http://ns.Zirnworks.com/StableDiffusion/1.0/' },
+    WRITABLE => 'string',
+    Prompts => { },
+    NegativePrompts => { name => 'Negative Prompts' },
+    Steps => { },
+    Sampler => { },
+    CFGScale => { name => 'CFGscale' },
+    Seed => { },
+    Size => { },
+    ModelHash => { name => 'Modelhash' },
+    
+);
