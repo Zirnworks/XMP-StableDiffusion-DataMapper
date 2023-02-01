@@ -11,9 +11,12 @@ fileNames = [f for f in listdir(folderName) if isfile(join(folderName, f))]
 
 
 def getFlags(fileName):
-
+    command = f'.\exiftool.exe "{fileName}" -Parameters'
     result = subprocess.run(
-        f'.\exiftool.exe {fileName} -Parameters', capture_output=True).stdout.decode('utf-8')
+        command, capture_output=True).stdout.decode('utf-8')
+    # See if the word "Steps" is in the output
+    if "Steps" not in result:
+        return ""
 
     print(result)
     # Remove the first 34 characters
@@ -59,11 +62,28 @@ def getFlags(fileName):
 
 
 # output = subprocess.run(command, capture_output=True).stdout.decode('utf-8')
-
+failedFiles = []
 # Iterate through all files in a directory
 for fileName in fileNames:
     fileName = f".\{folderName}\\" + fileName
-    command = f'.\exiftool.exe -config \conf.ExifTool_config {getFlags(fileName)} {fileName} -overwrite_original'
+    flags = getFlags(fileName)
+    if flags == "":
+        failedFiles.append(fileName)
+        continue
+    # -overwrite_original'
+    command = f'.\exiftool.exe -config \conf.ExifTool_config {flags} "{fileName}" -overwrite_original'
+    print(command)
     output = subprocess.run(
         command, capture_output=True).stdout.decode('utf-8')
     print(output)
+
+if len(failedFiles) > 0:
+    print("Failed to parse the following files:")
+    for file in failedFiles:
+        print(file)
+    print("These filenames have been added to FailedFiles.txt")
+    failedFiles = "\n".join(failedFiles)
+    with open("FailedFiles.txt", "w") as f:
+        f.write(failedFiles)
+else:
+    print("All files parsed successfully")
