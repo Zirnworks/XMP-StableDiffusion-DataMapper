@@ -22,4 +22,5 @@ You can easily access this data using [XnView MP](https://www.xnview.com/en/xnvi
 ### Acknowledgements
 Thank you to Phil Harvey, who is insanely dedicated to still be working on ExifTool after all these years, and for which this tool is just a simple wrapper over.
 
-(c) 2023 by Zirnworks LLC (Creative Commons)
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">XMP Stable Diffusion Mapper</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://www.Zirnworks.com" property="cc:attributionName" rel="cc:attributionURL">Zirnworks LLC</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+Authorized for Commercial use, both personally and professionally, please attribute Zirnworks when you do.
