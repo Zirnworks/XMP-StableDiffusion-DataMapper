@@ -5,17 +5,31 @@ from os.path import isfile, join
 # Usage: Place this file with the conf.ExifTool_config file. Place all images in the images folder. Run the script.
 
 # Where should I look for the images?
-folderName = "images"
 
-fileNames = [f for f in listdir(folderName) if isfile(join(folderName, f))]
+print("XMPEditor.py Version 1.0.0.")
+
+folderName = input(
+    "Enter the fully qualified path to the folder containing the images, or press enter to use the folder this script is in:\n")
+if folderName == "":
+    folderName = "."
+
+print("Now looking for images in " + folderName)
+
+fileNames = 0
+
+while fileNames == 0:
+    fileNames = [f for f in listdir(folderName) if isfile(join(folderName, f))]
+    # filter out all files that aren't png
+    fileNames = [f for f in fileNames if f.split(".")[-1] == "png"]
 
 
 def getFlags(fileName):
-    command = f'.\exiftool.exe "{fileName}" -Parameters'
+    command = f'.\exiftool.exe -Parameters "{fileName}"'
     result = subprocess.run(
         command, capture_output=True).stdout.decode('utf-8')
     # See if the word "Steps" is in the output
     if "Steps" not in result:
+        print(f"ExifTool failed to parse: {fileName}")
         return ""
 
     print(result)
@@ -65,7 +79,7 @@ def getFlags(fileName):
 failedFiles = []
 # Iterate through all files in a directory
 for fileName in fileNames:
-    fileName = f".\{folderName}\\" + fileName
+    fileName = f"{folderName}\\" + fileName
     flags = getFlags(fileName)
     if flags == "":
         failedFiles.append(fileName)
@@ -85,5 +99,7 @@ if len(failedFiles) > 0:
     failedFiles = "\n".join(failedFiles)
     with open("FailedFiles.txt", "w") as f:
         f.write(failedFiles)
+    input("Press enter to exit")
 else:
     print("All files parsed successfully")
+    input("Press enter to exit")
