@@ -32,14 +32,18 @@ def getFlags(fileName):
         print(f"ExifTool failed to parse: {fileName}")
         return ""
 
-    print(result)
     # Remove the first 34 characters
     result = result[34:]
 
     # Extract everything up to the word "Steps"
-    prompt = result.split("Steps")[0]
+    if "Negative prompt" in result:
+        prompt = result.split("Negative prompt")[0]
+        # Extract everything after the word "Negative prompt", up to the word "Steps"
+        negativePrompt = result.split("Negative prompt: ")[1]
+        negativePrompt = negativePrompt.split("Steps")[0]
+    else:
+        prompt = result.split("Steps")[0]
 
-    # Extract everything after the word "Steps", adding the word "Steps"
     result = "Steps" + result.split("Steps")[1]
 
     # Extract keyvalue pairs from csv string
@@ -69,6 +73,8 @@ def getFlags(fileName):
     flags = [f"-{key}=\"{value}\"" for key, value in keyValuePairs.items()]
     flags = " ".join(flags)
     flags = "-Prompts=" + f'"{prompt}"' + " " + flags
+    if negativePrompt != "":
+        flags = flags + " " + "-NegativePrompt=" + f'"{negativePrompt}"'
 
     return flags
 

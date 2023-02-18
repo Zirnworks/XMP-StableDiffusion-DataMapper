@@ -13,7 +13,7 @@
     NAMESPACE => { 'StableDiffusion' => 'http://ns.Zirnworks.com/StableDiffusion/1.0/' },
     WRITABLE => 'string',
     Prompts => { },
-    NegativePrompts => { name => 'Negative Prompts' },
+    NegativePrompt => { name => 'Negative Prompt' },
     Steps => { },
     Sampler => { },
     CFGScale => { name => 'CFGscale' },
