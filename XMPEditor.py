@@ -78,7 +78,11 @@ def getFlags(fileName):
 # output = subprocess.run(command, capture_output=True).stdout.decode('utf-8')
 failedFiles = []
 # Iterate through all files in a directory
+numFiles = len(fileNames)
+currentProgress = 0
 for fileName in fileNames:
+    currentProgress += 1
+    print("Processing " + fileName + f": File {currentProgress} of {numFiles}")
     fileName = f"{folderName}\\" + fileName
     flags = getFlags(fileName)
     if flags == "":
@@ -86,10 +90,10 @@ for fileName in fileNames:
         continue
     # -overwrite_original'
     command = f'.\exiftool.exe -config \conf.ExifTool_config {flags} "{fileName}" -overwrite_original'
-    print(command)
+
     output = subprocess.run(
         command, capture_output=True).stdout.decode('utf-8')
-    print(output)
+
 
 if len(failedFiles) > 0:
     print("Failed to parse the following files:")
