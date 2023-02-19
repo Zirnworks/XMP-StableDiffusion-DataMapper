@@ -6,7 +6,7 @@ from os.path import isfile, join
 
 # Where should I look for the images?
 
-print("XMPEditor.py Version 1.0.0.")
+print("XMPEditor.py Version 1.0.2.")
 
 folderName = input(
     "Enter the fully qualified path to the folder containing the images, or press enter to use the folder this script is in:\n")
@@ -35,6 +35,8 @@ def getFlags(fileName):
     # Remove the first 34 characters
     result = result[34:]
 
+    negativePrompt = ""
+    
     # Extract everything up to the word "Steps"
     if "Negative prompt" in result:
         prompt = result.split("Negative prompt")[0]
@@ -73,9 +75,12 @@ def getFlags(fileName):
     flags = [f"-{key}=\"{value}\"" for key, value in keyValuePairs.items()]
     flags = " ".join(flags)
     flags = "-Prompts=" + f'"{prompt}"' + " " + flags
-    if negativePrompt != "":
-        flags = flags + " " + "-NegativePrompt=" + f'"{negativePrompt}"'
+    
+    
 
+    if negativePrompt != None:
+        flags = flags + " " + "-NegativePrompt=" + f'"{negativePrompt}"'
+    
     return flags
 
 # command = f'.\exiftool.exe -config \conf.ExifTool_config {flags} TestImg.png'
